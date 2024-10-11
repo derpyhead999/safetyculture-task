@@ -16,7 +16,10 @@ func main() {
 	folderDriver := folder.NewDriver(res)
 	orgFolder := folderDriver.GetFoldersByOrgID(orgID)
 
-	folder.PrettyPrint(res)
+	// folder.PrettyPrint(res)
 	fmt.Printf("\n Folders for orgID: %s", orgID)
 	folder.PrettyPrint(orgFolder)
+
+	// childFolders := folderDriver.GetAllChildFolders(orgID, "enabled-professor-monster")
+	// folder.PrettyPrint(childFolders)
 }
