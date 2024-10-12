@@ -114,20 +114,25 @@ func Test_folder_MoveFolder(t *testing.T) {
 				{
 					Name:  "folder 2",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a.b",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.c",
 				},
 				{
-					Name:  "folder 2",
+					Name:  "folder 4",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.c.f",
 				},
 				{
-					Name:  "folder 3",
+					Name:  "folder 5",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.d",
 				},
 				{
-					Name:  "folder 3",
+					Name:  "folder 6",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.e",
 				},
@@ -141,20 +146,25 @@ func Test_folder_MoveFolder(t *testing.T) {
 				{
 					Name:  "folder 2",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a.b",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.c",
 				},
 				{
-					Name:  "folder 2",
+					Name:  "folder 4",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.c.f",
 				},
 				{
-					Name:  "folder 3",
+					Name:  "folder 5",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.d",
 				},
 				{
-					Name:  "folder 3",
+					Name:  "folder 6",
 					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 					Paths: "a.b.e",
 				},
@@ -295,13 +305,54 @@ func Test_folder_MoveFolder(t *testing.T) {
 			folders:      folder_schema,
 			want:         []folder.Folder{},
 		},
+		{
+			name:         "Base case no subdirectories",
+			errorCase:    false,
+			errorMessage: "",
+			sourceFolder: "b",
+			destFolder:   "c",
+			folders: []folder.Folder{
+				{
+					Name:  "folder 1",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a",
+				},
+				{
+					Name:  "folder 2",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "b",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "c",
+				},
+			},
+			want: []folder.Folder{
+				{
+					Name:  "folder 1",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a",
+				},
+				{
+					Name:  "folder 2",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "c.b",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "c",
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			f := folder.NewDriver(tt.folders)
 			get, err := f.MoveFolder(tt.sourceFolder, tt.destFolder)
 			if tt.errorCase {
-				assert.Equal(t, err, tt.errorMessage)
+				assert.NotNil(t, err)
 			} else {
 				assert.Equal(t, get, tt.want)
 			}

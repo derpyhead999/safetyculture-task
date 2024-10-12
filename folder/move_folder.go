@@ -53,24 +53,25 @@ func (f *driver) MoveFolder(name string, dst string) ([]Folder, error) {
 	// find path of 'dst' from root
 	dest_path := dest_folder.Paths
 
-	mod_folders := folders // Set array to modify
+	mod_folders := make([]Folder, len(folders)) // Set slice to modify
+	copy(mod_folders, folders)
+
 	// append 'name'.{child_path} to 'path of dst from root'
 	for _, f := range res {
-		for _, g := range mod_folders {
+		for i, g := range folders {
 			if f.Paths == g.Paths { // If folder found, get the 'name'.{child_path}
 				re := regexp.MustCompile(`(^|\.)` + regexp.QuoteMeta(name) + `(\..+|$)`)
 				suffix := re.FindString(g.Paths)
 				res_string := ""
+
 				if suffix[0] == '.' { // No need to add '.' if alr present
 					res_string = dest_path + suffix
 				} else {
 					res_string = dest_path + "." + suffix
 				}
-
-				g.Paths = res_string
+				mod_folders[i].Paths = res_string
 			}
 		}
 	}
-
 	return mod_folders, nil
 }
