@@ -47,7 +47,6 @@ var folder_schema []folder.Folder = []folder.Folder{
 }
 
 func Test_folder_MoveFolder(t *testing.T) {
-	// TODO: your tests here
 	t.Parallel()
 	tests := [...]struct {
 		name         string
