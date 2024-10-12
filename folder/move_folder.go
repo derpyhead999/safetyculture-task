@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// O(n^2) complexity, a nested for loop used
 func (f *driver) MoveFolder(name string, dst string) ([]Folder, error) {
 
 	folders := f.folders

@@ -36,6 +36,7 @@ func IsValidPath(folder Folder) bool {
 }
 
 // Note: Keep in mind that GetAllChildFolders does not have an error output type, so it was assumed that any errors will only be shown through the Folder array output
+// O(n) complexity, 1 for loop
 func (f *driver) GetAllChildFolders(orgID uuid.UUID, name string) []Folder {
 	// Only get folders with valid orgID
 	org_folders := f.GetFoldersByOrgID(orgID)
