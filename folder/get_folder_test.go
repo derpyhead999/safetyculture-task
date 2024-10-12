@@ -281,6 +281,29 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				},
 			},
 		},
+		{
+			name:  "Regex edge case",
+			orgID: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+			folders: []folder.Folder{
+				{
+					Name:  "folder 1",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a",
+				},
+				{
+					Name:  "folder 2",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "c",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "da.b",
+				},
+			},
+			parentFolder: "a",
+			want:         []folder.Folder{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

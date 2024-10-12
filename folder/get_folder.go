@@ -26,7 +26,7 @@ func (f *driver) GetFoldersByOrgID(orgID uuid.UUID) []Folder {
 
 // Get all directories with 'name', but not at the end (can be at the start)
 func IsChildFolder(folder Folder, name string) bool {
-	re := regexp.MustCompile(regexp.QuoteMeta(name) + `\..+`)
+	re := regexp.MustCompile(`(^|\.)` + regexp.QuoteMeta(name) + `\..+`)
 	return re.MatchString(folder.Paths)
 }
 
