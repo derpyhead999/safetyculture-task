@@ -35,6 +35,12 @@ func (f *driver) MoveFolder(name string, dst string) ([]Folder, error) {
 		return []Folder{}, errors.New("Error: Destination folder does not exist")
 	}
 
+	// Cannot move folder to child of itself
+	re := regexp.MustCompile(`(^|\.)` + regexp.QuoteMeta(name) + `(\..+|$)`)
+	if re.MatchString(dest_folder.Paths) {
+		return []Folder{}, errors.New("Error: Cannot move a folder to a child of itself")
+	}
+
 	// Cannot move folder to different organisation
 	if source_folder.OrgId != dest_folder.OrgId {
 		return []Folder{}, errors.New("Error: Cannot move a folder to a different organization")

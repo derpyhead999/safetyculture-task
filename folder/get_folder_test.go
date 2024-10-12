@@ -282,7 +282,7 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 			},
 		},
 		{
-			name:  "Regex edge case",
+			name:  "Regex edge case 1",
 			orgID: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
 			folders: []folder.Folder{
 				{
@@ -302,6 +302,29 @@ func Test_folder_GetAllChildFolders(t *testing.T) {
 				},
 			},
 			parentFolder: "a",
+			want:         []folder.Folder{},
+		},
+		{
+			name:  "Regex edge case 2",
+			orgID: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+			folders: []folder.Folder{
+				{
+					Name:  "folder 1",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a",
+				},
+				{
+					Name:  "folder 2",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "c",
+				},
+				{
+					Name:  "folder 3",
+					OrgId: uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111")),
+					Paths: "a.eb.d",
+				},
+			},
+			parentFolder: "b",
 			want:         []folder.Folder{},
 		},
 	}
